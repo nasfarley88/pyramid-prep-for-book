@@ -1,0 +1,33 @@
+% From page 1 of memoir manual: set stock size to be a4paper.
+\stockaiv
+
+% Dimensions of a pyramid pdf are y = 276mm, x = 213mm with y/x = 1.296.
+%
+% Set the trimmed size to be a little smaller than my print margins (when
+% squished into a5 with pdfjam), preserving the ratio of a real pyramid pdf.
+%
+% (this measurement becomes (2*x)/(shrink factor) when shrunk to fit two pages
+% onto one, where (shrink factor) is the (long side)/(short side). E.g. for
+% a4 -> a5 this is 2*x/sqrt(2)
+\settrimmedsize{*}{197mm}{1.296}
+
+% From memoir manual
+\setlength{\trimtop}{\stockheight}
+\addtolength{\trimtop}{-\paperheight}
+\setlength{\trimedge}{\stockwidth}
+\addtolength{\trimedge}{-\paperwidth} 
+% Set trims to be equal top and bottom, and flush against the spine
+\settrims{0.5\trimtop}{\trimedge}
+
+% Set margins for the typeblock
+\setulmarginsandblock{1.5cm}{*}{1}
+\setlrmarginsandblock{1cm}{*}{1}
+
+% Remove ugly trim marks when inside the textblock
+\trimLmarks
+\checkandfixthelayout
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

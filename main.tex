@@ -1,32 +1,7 @@
 \documentclass[showtrims]{memoir}
-% From page 1 of memoir manual: set stock size to be a4paper.
-\stockaiv
 
-% Dimensions of a pyramid pdf are y = 276mm, x = 213mm with y/x = 1.296.
-%
-% Set the trimmed size to be a little smaller than my print margins (when
-% squished into a5 with pdfjam), preserving the ratio of a real pyramid pdf.
-%
-% (this measurement becomes (2*x)/(shrink factor) when shrunk to fit two pages
-% onto one, where (shrink factor) is the (long side)/(short side). E.g. for
-% a4 -> a5 this is 2*x/sqrt(2)
-\settrimmedsize{*}{197mm}{1.296}
-
-% From memoir manual
-\setlength{\trimtop}{\stockheight}
-\addtolength{\trimtop}{-\paperheight}
-\setlength{\trimedge}{\stockwidth}
-\addtolength{\trimedge}{-\paperwidth} 
-% Set trims to be equal top and bottom, and flush against the spine
-\settrims{0.5\trimtop}{\trimedge}
-
-% Set margins for the typeblock
-\setulmarginsandblock{1.5cm}{*}{1}
-\setlrmarginsandblock{1cm}{*}{1}
-
-% Remove ugly trim marks when inside the textblock
-\trimLmarks
-\checkandfixthelayout
+% Input page specifications
+\input{pagespec}
 
 % Standard packages
 \usepackage[british]{babel}
@@ -49,11 +24,7 @@
 \maketitle
 \tableofcontents
 
-\pyramidissue{build/Pyramid_3_98_Welcome_to_Dungeon_Fantasy.pdf}{98}{Welcome to Dungeon Fantasy}{2-9,11-28,30-35}
-\pyramidissue{build/Pyramid_3_99_Death_and_Beyond.pdf}{99}{Death and Beyond}{2-11,13-28,30-37}
-\pyramidissue{build/Pyramid_3_100_Pyramid_Secrets.pdf}{100}{Pyramid Secrets}{2-15,17-26,28-35}
-\pyramidissue{build/Pyramid_3_101_Humor.pdf}{101}{Humor}{2-8,10-25,27-36}
-\pyramidissue{build/Pyramid_3_102_Epic.pdf}{102}{Epic}{2-14,16-29,31-38}
+\input{pyramids}
 
 \end{document}
 
