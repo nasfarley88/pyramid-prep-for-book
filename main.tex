@@ -17,13 +17,32 @@
 \renewcommand{\familydefault}{\sfdefault}
 \setsecnumdepth{part}
 
+% Fancy table of contents modifications
+\newcommand\centersingleline[1]{\hspace*{\fill}#1\hspace*{\fill}}
+
+\renewcommand*{\cftsectionfont}{\large\centersingleline}
+\renewcommand*{\cftsectionname}{}
+\renewcommand*{\cftsectionpresnum}{}
+\renewcommand*{\cftsectionaftersnum}{}
+\renewcommand*{\cftsectionaftersnumb}{}
+\renewcommand*{\cftsectionleader}{}
+\renewcommand*{\cftsectionformatpnum}[1]{\hfill}
+\renewcommand{\cftsectionafterpnum}{}
+
+% Removing header
+\pagestyle{empty}
+
+
+
 
 \begin{document}
 \title{Pyramid DIY Omnibus}
 \author{Various}
 \maketitle
-\tableofcontents
-
+\begin{center}
+  \centering
+  \tableofcontents*
+\end{center}
 \input{pyramids}
 
 \end{document}

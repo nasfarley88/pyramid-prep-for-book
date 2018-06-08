@@ -9,7 +9,7 @@ all: main-pdfjam.pdf
 %-pdfjam.pdf: %.pdf
 	pdfjam --signature 16 --landscape --a4paper $<
 
-%.pdf: %.tex
+main.pdf: main.tex pyramids.tex pagespec.tex
 	latexmk -lualatex $<
 
 clean:
