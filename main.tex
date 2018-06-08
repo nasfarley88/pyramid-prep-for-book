@@ -1,9 +1,15 @@
 \documentclass[showtrims]{memoir}
+% From page 1 of memoir manual: set stock size to be a4paper.
 \stockaiv
+
 % Dimensions of a pyramid pdf are y = 276mm, x = 213mm with y/x = 1.296.
 %
 % Set the trimmed size to be a little smaller than my print margins (when
 % squished into a5 with pdfjam), preserving the ratio of a real pyramid pdf.
+%
+% (this measurement becomes (2*x)/(shrink factor) when shrunk to fit two pages
+% onto one, where (shrink factor) is the (long side)/(short side). E.g. for
+% a4 -> a5 this is 2*x/sqrt(2)
 \settrimmedsize{*}{197mm}{1.296}
 
 % From memoir manual
@@ -14,104 +20,41 @@
 % Set trims to be equal top and bottom, and flush against the spine
 \settrims{0.5\trimtop}{\trimedge}
 
+% Set margins for the typeblock
 \setulmarginsandblock{1.5cm}{*}{1}
 \setlrmarginsandblock{1cm}{*}{1}
+
+% Remove ugly trim marks when inside the textblock
 \trimLmarks
 \checkandfixthelayout
 
-
-% From https://tex.stackexchange.com/questions/44416/is-memoirs-page-layout-incompatible-with-tikz
-
-% this is the added code. Use \calculatetrims when you change page geometry
-% You also have to use "memoir page" instead of "memoir page" in tikz
-\usepackage{calc}
-\makeatletter
-\newlength\memoirleftodd \newlength\memoirrightodd
-\newlength\memoirlefteven \newlength\memoirrighteven
-\newlength\memoirtop \newlength\memoirbottom
-\def\calculatetrims{
-    \setlength\memoirbottom{\stockheight-\paperheight-\trimtop}
-    \setlength\memoirleftodd{\stockwidth-\paperwidth-\trimedge}
-    \setlength\memoirlefteven{\trimedge}
-    \setlength\memoirtop{\memoirbottom+\paperheight}
-    \setlength\memoirrightodd{\memoirleftodd+\paperwidth}
-    \setlength\memoirrighteven{\memoirlefteven+\paperwidth}}
-\expandafter\def\csname pgf@sh@ns@memoir page\endcsname{rectangle}
-\expandafter\def\csname pgf@sh@np@memoir page\endcsname{%
-    \def\southwest{\checkoddpage\pgfqpoint{
-        \ifoddpage\memoirleftodd\else\memoirlefteven\fi}{\memoirbottom}}%
-    \def\northeast{\checkoddpage\pgfqpoint{
-        \ifoddpage\memoirrightodd\else\memoirrighteven\fi}{\memoirtop}}}
-\expandafter\def\csname pgf@sh@nt@memoir page\endcsname{{1}{0}{0}{1}{0pt}{0pt}}
-\expandafter\def\csname pgf@sh@pi@memoir page\endcsname{pgfpageorigin}
-% (Brent's additional code goes here)
-\makeatother
-
-\calculatetrims
-
-% end of TeX.SE code
-
-
-\renewcommand{\familydefault}{\sfdefault}
-\setsecnumdepth{part}
-
+% Standard packages
+\usepackage[british]{babel}
 \usepackage{pdfpages}
 \usepackage{tikz}
 \usetikzlibrary{shapes,positioning,calc}
 
-\newcommand\pyramidtitle[2]{
-  \cleartooddpage
-  \vspace*{\fill}
-  \begin{center}
-    \section{Pyramid #1 -- #2}
-  \end{center}
-  \vspace*{\fill}
-}
+% Custom packages
+\usepackage{tikz-memoir-page}
+\usepackage{pyramid-helper}
 
-\pgfmathsetmacro{\issuehelpercounter}{2cm}
-\newcommand\issuehelper[4]{
-  \checkoddpage
-  \ifoddpage                    % odd page
-  \begin{tikzpicture}[remember picture,overlay]
-    \node[below=\issuehelpercounter pt of memoir page.north east] (start) {};
-    \node[below left=2cm and 1.0cm of start] (finish) {};
-    \draw[draw=none,fill=black!20] ($ (start) + (10,0) $) rectangle (finish);
-    \draw[draw=none,fill=black!20] (start) rectangle (finish) node[midway,align=center,rotate=90, text width=1.9cm, color=white,inner sep=0.1cm,font={\scriptsize\bfseries}] {\#3/#2 -- #3};
-  \end{tikzpicture}
-  \else                         % even page
-  \begin{tikzpicture}[remember picture,overlay]
-    \node[below=\issuehelpercounter pt of memoir page.north west] (start) {};
-    \node[below right=2cm and 1.0cm of start] (finish) {};
-    \draw[draw=none,fill=black!20] (start) rectangle ($ (finish) - (10,0) $);
-    \draw[draw=none,fill=black!20] (start) rectangle (finish) node[midway,align=center,rotate=-90, text width=1.9cm, color=white,inner sep=0.1cm,font={\scriptsize\bfseries}] {\#3/#2 -- #3};
-  \end{tikzpicture}
-  \fi
-}
+% Configurations
+\renewcommand{\familydefault}{\sfdefault}
+\setsecnumdepth{part}
 
-\newcommand\pyramidissue[4]{
-  \pgfmathsetmacro{\issuehelpercounter}{\issuehelpercounter + 2cm}
-  \IfFileExists{#1}{
-    \pyramidtitle{#2}{#3}
-    \includepdf[
-    % TODO make it switch 
-    pagecommand={\issuehelper{#1}{#2}{#3}{#4}},
-    pages={#4}]{#1}
-  }{}
-}
 
 \begin{document}
-\title{Pyramid home omnibus}
+\title{Pyramid DIY Omnibus}
 \author{Various}
 \maketitle
 \tableofcontents
 
-% This issue has maps, should sort that for home printing!
-\pyramidissue{build/Pyramid_3_98_Welcome_to_Dungeon_Fantasy.pdf}{98}{Welcome to
-  Dungeon Fantasy}{2-9,11-28,30-35}
+\pyramidissue{build/Pyramid_3_98_Welcome_to_Dungeon_Fantasy.pdf}{98}{Welcome to Dungeon Fantasy}{2-9,11-28,30-35}
 \pyramidissue{build/Pyramid_3_99_Death_and_Beyond.pdf}{99}{Death and Beyond}{2-11,13-28,30-37}
 \pyramidissue{build/Pyramid_3_100_Pyramid_Secrets.pdf}{100}{Pyramid Secrets}{2-15,17-26,28-35}
 \pyramidissue{build/Pyramid_3_101_Humor.pdf}{101}{Humor}{2-8,10-25,27-36}
-% \pyramidissue{build/Pyramid_3_102_Epic.pdf}{102}{Epic}{2-14,16-29,31-38}
+\pyramidissue{build/Pyramid_3_102_Epic.pdf}{102}{Epic}{2-14,16-29,31-38}
+
 \end{document}
 
 %%% Local Variables:
