@@ -1,21 +1,21 @@
 \documentclass[showtrims]{memoir}
-\setstocksize{276mm}{213mm}
-% If I were printing a4, then I would have a textblock of 201mm x 293mm
-% \settrimmedsize{276mm}{213mm}{*}
+\stockaiv
+% Dimensions of a pyramid pdf are y = 276mm, x = 213mm with y/x = 1.296.
+%
+% Set the trimmed size to be a little smaller than my print margins (when
+% squished into a5 with pdfjam), preserving the ratio of a real pyramid pdf.
 \settrimmedsize{*}{197mm}{1.296}
+
 % From memoir manual
 \setlength{\trimtop}{\stockheight}
 \addtolength{\trimtop}{-\paperheight}
 \setlength{\trimedge}{\stockwidth}
 \addtolength{\trimedge}{-\paperwidth} 
+% Set trims to be equal top and bottom, and flush against the spine
 \settrims{0.5\trimtop}{\trimedge}
+
 \setulmarginsandblock{1.5cm}{*}{1}
-% \setlrmarginsandblock{1.5cm}{1.5cm}{*}
-% TODO figure out how to set the block, and then the margins because the block
-% needs to be 0cm between the spine (i.e. right block margin = 0cm for odd
-% pages) Margins at 1.5cm seems sensible, but might need shrinking by 6mm to
-% accomodate the change in trimmed size (for my printer's sake)
-\setlrmarginsandblock{3cm}{*}{1}
+\setlrmarginsandblock{1cm}{*}{1}
 \trimLmarks
 \checkandfixthelayout
 
@@ -53,6 +53,7 @@
 
 
 \renewcommand{\familydefault}{\sfdefault}
+\setsecnumdepth{part}
 
 \usepackage{pdfpages}
 \usepackage{tikz}
