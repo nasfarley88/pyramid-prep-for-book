@@ -1,4 +1,5 @@
 .PHONY: all clean
+.PRECIOUS: main.pdf
 
 all: main-pdfjam.pdf
 
