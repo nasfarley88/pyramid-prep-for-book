@@ -29,6 +29,6 @@ This file contains lines with the following macro
 If the pdf is not present at `location of pdf` then it will silently ignore it. Pull requests adding support for more issues are very welcome!
 
 ### pagespec.tex
-This specifies the page specifications. By default, it supports a4 going down to a5. The stock page size is a4, with the trimmed size lower than my personal print margins but with a (long side)/(short side) ratio the same as an issue of Pyramid.
+This specifies the page specifications. By default, it supports a4 going down to a5. The stock page size is a4, with the trimmed size lower than my personal print margins but with a (long side)/(short side) ratio the same as an issue of Pyramid. If you want to print on non-a4paper (e.g. US Letter) then this file will need to be altered.
 
 See [memoir class documentation](https://ctan.org/pkg/memoir?lang=en) for more details.
