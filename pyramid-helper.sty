@@ -7,7 +7,8 @@
   \vspace*{\fill}
 }
 
-\pgfmathsetmacro{\issuehelpercounter}{2cm}
+% TODO use tikz styles for everything here instead of writing it twice
+\pgfmathsetmacro{\issuehelpercounter}{0cm}
 \newcommand\issuehelper[4]{
   \checkoddpage
   \ifoddpage                    % odd page
@@ -15,20 +16,21 @@
     \node[below=\issuehelpercounter pt of memoir page.north east] (start) {};
     \node[below left=2cm and 1.0cm of start] (finish) {};
     \draw[draw=none,fill=black!20] ($ (start) + (10,0) $) rectangle (finish);
-    \draw[draw=none,fill=black!20] (start) rectangle (finish) node[midway,align=center,rotate=90, text width=1.9cm, color=white,inner sep=0.1cm,font={\scriptsize\bfseries}] {\#3/#2 -- #3};
+    \draw[draw=none,fill=black!20] (start) rectangle (finish) node[midway,align=center,rotate=90, text width=1.9cm, color=black,inner sep=0.1cm,font={\scriptsize\bfseries}] {\#3/#2 -- #3};
   \end{tikzpicture}
   \else                         % even page
   \begin{tikzpicture}[remember picture,overlay]
     \node[below=\issuehelpercounter pt of memoir page.north west] (start) {};
     \node[below right=2cm and 1.0cm of start] (finish) {};
     \draw[draw=none,fill=black!20] (start) rectangle ($ (finish) - (10,0) $);
-    \draw[draw=none,fill=black!20] (start) rectangle (finish) node[midway,align=center,rotate=-90, text width=1.9cm, color=white,inner sep=0.1cm,font={\scriptsize\bfseries}] {\#3/#2 -- #3};
+    \draw[draw=none,fill=black!20] (start) rectangle (finish) node[midway,align=center,rotate=-90, text width=1.9cm, color=black,inner sep=0.1cm,font={\scriptsize\bfseries}] {\#3/#2 -- #3};
   \end{tikzpicture}
   \fi
 }
 
 \newcommand\pyramidissue[4]{
-  \pgfmathsetmacro{\issuehelpercounter}{\issuehelpercounter + 2cm}
+  % TODO make this baesd on the trimmed page rather than guessing
+  \pgfmathsetmacro{\issuehelpercounter}{(\issuehelpercounter>21cm)?2cm:\issuehelpercounter + 2cm}
   \IfFileExists{#1}{
     \pyramidtitle{#2}{#3}
     \includepdf[
